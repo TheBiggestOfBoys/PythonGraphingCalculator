@@ -116,8 +116,6 @@ def GraphPoints():
     XPoints = open("XPoints.txt", 'r')
     YPoints = open("YPoints.txt", 'r')
 
-    print(eval(XPoints.readline(1)) + 2)
-
     for point in range(10):
         print("(", XPoints.readline(point), ",", YPoints.readline(point), ")")
         if point == 0:
