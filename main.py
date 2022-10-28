@@ -34,9 +34,9 @@ for offset in range(-15, 15):
     move(300, offset * 20)
     setx(-300)
 
-from Logarithms import resetTurtle
 print("Done!")
-resetTurtle()
+print()
+move(0, 0)
 
 # Graph Type Input
 print("1 = Line | 2 = Parabola | 3 = Circle | 4 = Trig | 5 = Finish Graph | 6 = Point Graphing")
@@ -82,6 +82,7 @@ if __name__ == '__main__':
             from Logarithms import GraphPoints
             GraphPoints()
 
-        resetTurtle()
+        print()
+        move(0, 0)
 
 done()

@@ -7,14 +7,9 @@ def move(x, y):
     goto(x, y)
     down()
 
-# Reset Turtle
-def resetTurtle():
-    print()
-    move(0, 0)
-
 # Circle
 def DrawCircle():
-    radius = eval(input("Radius: "))
+    radius = eval(input("Radius:          "))
     xOrigin = eval(input("X Point Origin: "))
     yOrigin = eval(input("Y Point Origin: "))
     print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²", "(", radius ** 2, ")")
@@ -25,9 +20,9 @@ def DrawCircle():
 # Parabola
 def Parabola():
     print("1: y = , 2: x =")
-    functionType = input("Function Type: ")
-    slope = eval(input("Slope: "))
-    intercept = eval(input("Intercept: "))
+    functionType =   input("Function Type:  ")
+    slope =     eval(input("Slope:          "))
+    intercept = eval(input("Intercept:      "))
     print("y =", slope, "*x^2 +", intercept)
     # Create Parabola
     print("Points: ")
@@ -84,10 +79,10 @@ def Trig():
     trigType = input("Trig Graph Type: ")
     print("1: y = , 2: x =")
     functionType = input("Function Type: ")
-    a = eval(input("Amplitude (a) = "))
-    b = eval(input("Frequency (b) = "))
-    c = eval(input("Horizontal Shift (c) = "))
-    d = eval(input("Vertical Shift (d) = "))
+    a = eval(input("Amplitude (a)           = "))
+    b = eval(input("Frequency (b)           = "))
+    c = eval(input("Horizontal Shift (c)    = "))
+    d = eval(input("Vertical Shift (d)      = "))
     if functionType == ("1" or "y"):
         for x in range(-15, 16):
             if trigType == "Sin":
@@ -115,13 +110,20 @@ def Trig():
 def GraphPoints():
     XPoints = open("XPoints.txt", 'r')
     YPoints = open("YPoints.txt", 'r')
+    x = []
+    y = []
 
-    for point in range(10):
-        print("(", XPoints.readline(point), ",", YPoints.readline(point), ")")
+    for point in range(1, 10):
+        x.append(XPoints.readline(point))
+        y.append(YPoints.readline(point))
+
+        print("(", x, ",", y, ")")
+
+    for point in range(1, 10):
         if point == 0:
-            move(eval(XPoints.readline(point)) * 20, eval(YPoints.readline(point)) * 20)
+            move(XPoints[point] * 20, (YPoints[point] * 20))
         else:
-            goto(eval(XPoints.readline(point)) * 20, eval(YPoints.readline(point)) * 20)
+            goto(XPoints[point] * 20, YPoints[point] * 2)
 
     XPoints.close()
     YPoints.close()
