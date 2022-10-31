@@ -1,6 +1,5 @@
 from turtle import (setx, sety, up, down, goto, circle)
 
-# Logarithms
 # Move
 def move(x, y):
     up()
@@ -20,8 +19,8 @@ def DrawCircle():
 # Parabola
 def Parabola():
     print("1: y = , 2: x =")
-    functionType =   input("Function Type:  ")
-    slope =     eval(input("Slope:          "))
+    functionType = input("Function Type:  ")
+    slope = eval(input("Slope:          "))
     intercept = eval(input("Intercept:      "))
     print("y =", slope, "*x^2 +", intercept)
     # Create Parabola
@@ -108,22 +107,8 @@ def Trig():
     print("Equation: y =", a, trigType, "(", b, "x +", c, ") +", d)
 
 def GraphPoints():
-    XPoints = open("XPoints.txt", 'r')
-    YPoints = open("YPoints.txt", 'r')
-    x = []
-    y = []
-
-    for point in range(1, 10):
-        x.append(XPoints.readline(point))
-        y.append(YPoints.readline(point))
-
-        print("(", x, ",", y, ")")
-
-    for point in range(1, 10):
-        if point == 0:
-            move(XPoints[point] * 20, (YPoints[point] * 20))
-        else:
-            goto(XPoints[point] * 20, YPoints[point] * 2)
-
-    XPoints.close()
-    YPoints.close()
+    import csv
+    with open('Points.csv') as csvfile:
+        csvReader = csv.reader(csvfile, delimiter=',')
+        for row in csvReader:
+            print(row)
