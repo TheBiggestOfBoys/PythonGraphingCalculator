@@ -1,19 +1,23 @@
 # Python Graphing Calculator
-# Version 1.31
-from turtle import (speed, hideturtle, width, setx, sety, color, done)
-from Logarithms import move
+# Version 1.33
 
 # Create Grid
+from turtle import speed
 speed(0)
+from turtle import hideturtle
 hideturtle()
 print("Drawing Graph...")
 # Create X Axis and Y Axis
 print("Creating X Axis and Y Axis")
+from turtle import width
 width(3)
+from Logarithms import move
 move(300, 0)
+from turtle import setx
 setx(-300)
 move(0, 0)
 move(0, 300)
+from turtle import sety
 sety(-300)
 
 # Create Vertical Gridlines
@@ -41,6 +45,7 @@ move(0, 0)
 # Graph Type Input
 print("1 = Line | 2 = Parabola | 3 = Circle | 4 = Trig | 5 = Finish Graph | 6 = Point Graphing")
 
+from turtle import color
 color("blue")
 graphType = 0
 
@@ -85,4 +90,5 @@ if __name__ == '__main__':
         print()
         move(0, 0)
 
+from turtle import done
 done()

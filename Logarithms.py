@@ -1,4 +1,4 @@
-from turtle import (setx, sety, up, down, goto, circle)
+from turtle import (setx, sety, up, down, goto, circle, setpos)
 
 # Move
 def move(x, y):
@@ -8,12 +8,12 @@ def move(x, y):
 
 # Circle
 def DrawCircle():
-    radius = eval(input("Radius:          "))
+    radius = eval(input("Radius:         "))
     xOrigin = eval(input("X Point Origin: "))
     yOrigin = eval(input("Y Point Origin: "))
     print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²", "(", radius ** 2, ")")
     # Create Circle
-    move((xOrigin * 20), (20 * (yOrigin - radius)))
+    setpos((xOrigin * 20), (20 * (yOrigin - radius)))
     circle(radius * 20)
 
 # Parabola
@@ -112,3 +112,4 @@ def GraphPoints():
         csvReader = csv.reader(csvfile, delimiter=',')
         for row in csvReader:
             print(row)
+    csvfile.close()
