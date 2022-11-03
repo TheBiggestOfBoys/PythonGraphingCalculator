@@ -1,6 +1,5 @@
 # Python Graphing Calculator
 # Version 1.33
-
 # Create Grid
 from turtle import speed
 speed(0)

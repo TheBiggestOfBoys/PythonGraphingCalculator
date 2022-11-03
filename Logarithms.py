@@ -13,7 +13,7 @@ def DrawCircle():
     yOrigin = eval(input("Y Point Origin: "))
     print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²", "(", radius ** 2, ")")
     # Create Circle
-    setpos((xOrigin * 20), (20 * (yOrigin - radius)))
+    goto((xOrigin * 20), (20 * (yOrigin - radius)))
     circle(radius * 20)
 
 # Parabola
@@ -22,25 +22,26 @@ def Parabola():
     functionType = input("Function Type:  ")
     slope = eval(input("Slope:          "))
     intercept = eval(input("Intercept:      "))
-    print("y =", slope, "*x^2 +", intercept)
     # Create Parabola
     print("Points: ")
     if functionType == ("1" or "y"):
+        print("y =", slope, "*x^2", "+", intercept)
         for x in range(-30, 30):
-            y = (((x ** 2) * slope) + intercept)
+            y = ((x ** 2) * slope) + intercept
             if x == -30:
                 move(x * 20, y * 20)
             else:
                 goto(x * 20, y * 20)
-            return x, y
+            print("(", x, ",", y, ")", end=' ')
     if functionType == ("2" or "x"):
+        print("x =", slope, "*y^2", "+", intercept)
         for y in range(-30, 30):
-            x = (((y ** 2) * slope) + intercept)
+            x = ((y ** 2) * slope) + intercept
             if x == -30:
                 move(x * 20, y * 20)
             else:
                 goto(x * 20, y * 20)
-            return x, y
+            print("(", x, ",", y, ")", end=' ')
 
 def AngledLine():
     slope = eval(input("Slope: "))
@@ -51,7 +52,7 @@ def AngledLine():
     goto(300, 20 * ((15 * slope) + intercept))
     print("Points: ")
     for x in range(-15, 16):
-        return x, ((x * slope) + intercept)
+        print(x, (x * slope) + intercept)
 
 def StraightLine():
     print("Type y for 'y =' | x for 'x ='")
@@ -64,13 +65,13 @@ def StraightLine():
         setx(300)
         print("Points: ")
         for y in range(-15, 16):
-            return intercept, y
+            print(intercept, y)
     if axis == "x":
         move(intercept * 20, -300)
         sety(300)
         print("Points: ")
         for x in range(-15, 16):
-            return x, intercept
+            print(x, intercept)
 
 def Trig():
     from math import (sin, cos)
@@ -107,9 +108,61 @@ def Trig():
     print("Equation: y =", a, trigType, "(", b, "x +", c, ") +", d)
 
 def GraphPoints():
+    # This code is a modified version of this tutorial 'https://www.geeksforgeeks.org/working-csv-files-python/'
+    # I have kept their comments for clarity
+
+    # importing csv module
     import csv
-    with open('Points.csv') as csvfile:
-        csvReader = csv.reader(csvfile, delimiter=',')
-        for row in csvReader:
-            print(row)
-    csvfile.close()
+
+    csvType = input(".csv Type: ")
+    if csvType == "read":
+        # csv file name
+        filename = input("Point Source (don't add '.csv'): ") + ".csv"
+
+        # initializing the titles and rows list
+        rows = []
+
+        # reading csv file
+        with open(filename, 'r') as csvfile:
+            # creating a csv reader object
+            csvreader = csv.reader(csvfile)
+
+            # extracting each data row one by one
+            for row in csvreader:
+                rows.append(row)
+
+            # get total number of rows
+            print("Total number of Points: ", csvreader.line_num - 1)
+
+        # printing first 5 rows
+        print("Points:")
+        print("X, Y")
+        for row in rows[0:]:
+            # parsing each column of a row
+            for col in row:
+                print(col, end=", ")
+                goto(eval(col) * 20, eval(col) * 20)
+
+    if csvType == "write":
+        # initializing the titles and rows list
+        fields = ['X', 'Y']
+        rows = []
+
+        for i in range(10):
+            xCor = eval(input("X Coordinate: "))
+            yCor = eval(input("Y Coordinate: "))
+            rows.append([xCor, yCor])
+
+        # name of csv file
+        filename = "Empty.csv"
+
+        # writing to csv file
+        with open(filename, 'w') as csvfile:
+            # creating a csv writer object
+            csvwriter = csv.writer(csvfile)
+
+            # writing the fields
+            csvwriter.writerow(fields)
+
+            # writing the data rows
+            csvwriter.writerows(rows)
