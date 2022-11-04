@@ -1,4 +1,4 @@
-from turtle import (setx, sety, up, down, goto, circle, setpos)
+from turtle import (setx, sety, up, down, goto, circle)
 
 # Move
 def move(x, y):
@@ -120,7 +120,8 @@ def GraphPoints():
         filename = input("Point Source (don't add '.csv'): ") + ".csv"
 
         # initializing the titles and rows list
-        rows = []
+        X = []
+        Y = []
 
         # reading csv file
         with open(filename, 'r') as csvfile:
@@ -128,20 +129,23 @@ def GraphPoints():
             csvreader = csv.reader(csvfile)
 
             # extracting each data row one by one
-            for row in csvreader:
-                rows.append(row)
+            for column in range(2):
+                for line in csvreader:
+                    if column == 1:
+                        X.append(line)
+                    if column == 2:
+                        Y.append(line)
 
             # get total number of rows
             print("Total number of Points: ", csvreader.line_num - 1)
 
+        # printing the field names
+        print("Points:\n", "(X, Y)")
+
         # printing first 5 rows
-        print("Points:")
-        print("X, Y")
-        for row in rows[0:]:
-            # parsing each column of a row
-            for col in row:
-                print(col, end=", ")
-                goto(eval(col) * 20, eval(col) * 20)
+        for line in range(1, csvreader.line_num):
+            print("(", X[line], ",", Y[line], ")")
+            move(X[line] * 20, Y[line] * 20)
 
     if csvType == "write":
         # initializing the titles and rows list
@@ -160,9 +164,7 @@ def GraphPoints():
         with open(filename, 'w') as csvfile:
             # creating a csv writer object
             csvwriter = csv.writer(csvfile)
-
             # writing the fields
             csvwriter.writerow(fields)
-
             # writing the data rows
             csvwriter.writerows(rows)
