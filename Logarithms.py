@@ -13,7 +13,7 @@ def DrawCircle():
     yOrigin = eval(input("Y Point Origin: "))
     print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²", "(", radius ** 2, ")")
     # Create Circle
-    goto((xOrigin * 20), (20 * (yOrigin - radius)))
+    move((xOrigin * 20), (20 * (yOrigin - radius)))
     circle(radius * 20)
 
 # Parabola
