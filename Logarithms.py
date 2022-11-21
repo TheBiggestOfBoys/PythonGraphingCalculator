@@ -1,4 +1,5 @@
 from turtle import (setx, sety, up, down, goto, circle)
+import pyautogui
 
 # Move
 def move(x, y):
@@ -8,67 +9,64 @@ def move(x, y):
 
 # Circle
 def DrawCircle():
-    radius = eval(input("Radius:         "))
-    xOrigin = eval(input("X Point Origin: "))
-    yOrigin = eval(input("Y Point Origin: "))
+    radius = eval(pyautogui.prompt(title='Radius: '))
+    xOrigin = eval(pyautogui.prompt(title='X Point Origin: '))
+    yOrigin = eval(pyautogui.prompt(title='Y Point Origin: '))
     print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²", "(", radius ** 2, ")")
     # Create Circle
-    move((xOrigin * 20), (20 * (yOrigin - radius)))
-    circle(radius * 20)
+    move((xOrigin * 40), (40 * (yOrigin - radius)))
+    circle(radius * 40)
 
 # Parabola
 def Parabola():
-    print("1: y = , 2: x =")
-    functionType = input("Function Type:  ")
-    slope = eval(input("Slope:          "))
-    intercept = eval(input("Intercept:      "))
+    functionType = pyautogui.confirm(title='Trig Type', buttons=['X', 'Y'])
+    slope = eval(pyautogui.prompt(title='Slope: '))
+    intercept = eval(pyautogui.prompt(title='Intercept: '))
     # Create Parabola
     print("Points: ")
-    if functionType == ("1" or "y"):
+    if functionType == "Y":
         print("y =", slope, "*x^2", "+", intercept)
         for x in range(-30, 30):
             y = ((x ** 2) * slope) + intercept
             if x == -30:
-                move(x * 20, y * 20)
+                move(x * 40, y * 40)
             else:
-                goto(x * 20, y * 20)
+                goto(x * 40, y * 40)
             print("(", x, ",", y, ")", end=' ')
-    if functionType == ("2" or "x"):
+    if functionType == "X":
         print("x =", slope, "*y^2", "+", intercept)
         for y in range(-30, 30):
             x = ((y ** 2) * slope) + intercept
             if x == -30:
-                move(x * 20, y * 20)
+                move(x * 40, y * 40)
             else:
-                goto(x * 20, y * 20)
+                goto(x * 40, y * 40)
             print("(", x, ",", y, ")", end=' ')
 
 def AngledLine():
-    slope = eval(input("Slope: "))
-    intercept = eval(input("Intercept: "))
+    slope = eval(pyautogui.prompt(title='Slope: '))
+    intercept = eval(pyautogui.prompt(title='Intercept: '))
     print("Equation: y =", slope, "*x +", intercept)
     # Create Angled Line
-    move(-300, 20 * -((15 * slope) + intercept))
-    goto(300, 20 * ((15 * slope) + intercept))
+    move(-600, 40 * -((15 * slope) + intercept))
+    goto(600, 40 * ((15 * slope) + intercept))
     print("Points: ")
     for x in range(-15, 16):
         print(x, (x * slope) + intercept)
 
 def StraightLine():
-    print("Type y for 'y =' | x for 'x ='")
-    axis = input("Axis: ")
-    print(axis, "Axis Intercept: ", end='')
-    intercept = eval(input())
+    axis = pyautogui.prompt(title='Axis: (X or Y)')
+    intercept = eval(pyautogui.prompt(title='Intercept'))
     print(axis, "=", intercept)
     if axis == "y":
-        move(-300, intercept * 20)
-        setx(300)
+        move(-600, intercept * 40)
+        setx(600)
         print("Points: ")
         for y in range(-15, 16):
             print(intercept, y)
     if axis == "x":
-        move(intercept * 20, -300)
-        sety(300)
+        move(intercept * 40, -600)
+        sety(600)
         print("Points: ")
         for x in range(-15, 16):
             print(x, intercept)
@@ -76,95 +74,33 @@ def StraightLine():
 def Trig():
     from math import (sin, cos)
     print("Enter 'Sin' or 'Cos'")
-    trigType = input("Trig Graph Type: ")
+    trigType = pyautogui.confirm(title='Trig Type', buttons=['Sin', 'Cos'])
     print("1: y = , 2: x =")
-    functionType = input("Function Type: ")
-    a = eval(input("Amplitude (a)           = "))
-    b = eval(input("Frequency (b)           = "))
-    c = eval(input("Horizontal Shift (c)    = "))
-    d = eval(input("Vertical Shift (d)      = "))
-    if functionType == ("1" or "y"):
+    functionType = pyautogui.confirm(title='Function Type: ', buttons=['X', 'Y'])
+    a = eval(pyautogui.prompt(title='Amplitude (a)'))
+    b = eval(pyautogui.prompt(title='Frequency (b)'))
+    c = eval(pyautogui.prompt(title='Horizontal Shift (c)'))
+    d = eval(pyautogui.prompt(title='Vertical Shift (d)'))
+    if functionType == "Y":
         for x in range(-15, 16):
             if trigType == "Sin":
                 y = a * sin((b * x) + c) + d
             if trigType == "Cos":
                 y = a * cos((b * x) + c) + d
             if x == -15:
-                move(x * 20, y * 20)
+                move(x * 40, y * 40)
             else:
-                goto(x * 20, y * 20)
+                goto(x * 40, y * 40)
 
-    if functionType == ("2" or "x"):
+    if functionType == "X":
         for y in range(-15, 16):
             if trigType == "Sin":
                 x = a * sin((b * y) + c) + d
             if trigType == "Cos":
                 x = a * cos((b * y) + c) + d
             if y == -15:
-                move(x * 20, y * 20)
+                move(x * 40, y * 40)
             else:
-                goto(x * 20, y * 20)
+                goto(x * 40, y * 40)
 
     print("Equation: y =", a, trigType, "(", b, "x +", c, ") +", d)
-
-def GraphPoints():
-    # This code is a modified version of this tutorial 'https://www.geeksforgeeks.org/working-csv-files-python/'
-    # I have kept their comments for clarity
-
-    # importing csv module
-    import csv
-
-    csvType = input(".csv Type: ")
-    if csvType == "read":
-        # csv file name
-        filename = input("Point Source (don't add '.csv'): ") + ".csv"
-
-        # initializing the titles and rows list
-        X = []
-        Y = []
-
-        # reading csv file
-        with open(filename, 'r') as csvfile:
-            # creating a csv reader object
-            csvreader = csv.reader(csvfile)
-
-            # extracting each data row one by one
-            for column in range(2):
-                for line in csvreader:
-                    if column == 1:
-                        X.append(line)
-                    if column == 2:
-                        Y.append(line)
-
-            # get total number of rows
-            print("Total number of Points: ", csvreader.line_num - 1)
-
-        # printing the field names
-        print("Points:\n", "(X, Y)")
-
-        # printing first 5 rows
-        for line in range(1, csvreader.line_num):
-            print("(", X[line], ",", Y[line], ")")
-            move(X[line] * 20, Y[line] * 20)
-
-    if csvType == "write":
-        # initializing the titles and rows list
-        fields = ['X', 'Y']
-        rows = []
-
-        for i in range(10):
-            xCor = eval(input("X Coordinate: "))
-            yCor = eval(input("Y Coordinate: "))
-            rows.append([xCor, yCor])
-
-        # name of csv file
-        filename = "Empty.csv"
-
-        # writing to csv file
-        with open(filename, 'w') as csvfile:
-            # creating a csv writer object
-            csvwriter = csv.writer(csvfile)
-            # writing the fields
-            csvwriter.writerow(fields)
-            # writing the data rows
-            csvwriter.writerows(rows)
