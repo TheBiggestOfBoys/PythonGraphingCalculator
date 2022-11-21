@@ -1,4 +1,5 @@
 from turtle import (setx, sety, up, down, goto, circle)
+from math import (sin, cos)
 import pyautogui
 
 # Move
@@ -14,8 +15,8 @@ def DrawCircle():
     yOrigin = eval(pyautogui.prompt(title='Y Point Origin: '))
     print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²", "(", radius ** 2, ")")
     # Create Circle
-    move((xOrigin * 40), (40 * (yOrigin - radius)))
-    circle(radius * 40)
+    move(xOrigin * 20, 20 * (yOrigin - radius))
+    circle(radius * 20)
 
 # Parabola
 def Parabola():
@@ -25,57 +26,54 @@ def Parabola():
     # Create Parabola
     print("Points: ")
     if functionType == "Y":
-        print("y =", slope, "*x^2", "+", intercept)
+        print("y =", slope, "x²", "+", intercept)
         for x in range(-30, 30):
             y = ((x ** 2) * slope) + intercept
             if x == -30:
-                move(x * 40, y * 40)
+                move(x * 20, y * 20)
             else:
-                goto(x * 40, y * 40)
+                goto(x * 20, y * 20)
             print("(", x, ",", y, ")", end=' ')
     if functionType == "X":
-        print("x =", slope, "*y^2", "+", intercept)
+        print("x =", slope, "*y²", "+", intercept)
         for y in range(-30, 30):
             x = ((y ** 2) * slope) + intercept
             if x == -30:
-                move(x * 40, y * 40)
+                move(x * 20, y * 20)
             else:
-                goto(x * 40, y * 40)
+                goto(x * 20, y * 20)
             print("(", x, ",", y, ")", end=' ')
 
 def AngledLine():
     slope = eval(pyautogui.prompt(title='Slope: '))
     intercept = eval(pyautogui.prompt(title='Intercept: '))
-    print("Equation: y =", slope, "*x +", intercept)
+    print("Equation: y =", slope, "x +", intercept)
     # Create Angled Line
-    move(-600, 40 * -((15 * slope) + intercept))
-    goto(600, 40 * ((15 * slope) + intercept))
+    move(-300, 20 * -((15 * slope) + intercept))
+    goto(300, 20 * ((15 * slope) + intercept))
     print("Points: ")
     for x in range(-15, 16):
-        print(x, (x * slope) + intercept)
+        print("(", x, ",", ((x * slope) + intercept), ")")
 
 def StraightLine():
     axis = pyautogui.prompt(title='Axis: (X or Y)')
     intercept = eval(pyautogui.prompt(title='Intercept'))
     print(axis, "=", intercept)
     if axis == "y":
-        move(-600, intercept * 40)
-        setx(600)
+        move(-300, intercept * 20)
+        setx(300)
         print("Points: ")
         for y in range(-15, 16):
             print(intercept, y)
     if axis == "x":
-        move(intercept * 40, -600)
-        sety(600)
+        move(intercept * 20, -300)
+        sety(300)
         print("Points: ")
         for x in range(-15, 16):
             print(x, intercept)
 
 def Trig():
-    from math import (sin, cos)
-    print("Enter 'Sin' or 'Cos'")
     trigType = pyautogui.confirm(title='Trig Type', buttons=['Sin', 'Cos'])
-    print("1: y = , 2: x =")
     functionType = pyautogui.confirm(title='Function Type: ', buttons=['X', 'Y'])
     a = eval(pyautogui.prompt(title='Amplitude (a)'))
     b = eval(pyautogui.prompt(title='Frequency (b)'))
@@ -88,9 +86,9 @@ def Trig():
             if trigType == "Cos":
                 y = a * cos((b * x) + c) + d
             if x == -15:
-                move(x * 40, y * 40)
+                move(x * 20, y * 20)
             else:
-                goto(x * 40, y * 40)
+                goto(x * 20, y * 20)
 
     if functionType == "X":
         for y in range(-15, 16):
@@ -99,8 +97,8 @@ def Trig():
             if trigType == "Cos":
                 x = a * cos((b * y) + c) + d
             if y == -15:
-                move(x * 40, y * 40)
+                move(x * 20, y * 20)
             else:
-                goto(x * 40, y * 40)
+                goto(x * 20, y * 20)
 
     print("Equation: y =", a, trigType, "(", b, "x +", c, ") +", d)

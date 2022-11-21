@@ -1,9 +1,10 @@
 # Python Graphing Calculator
 # Version 1.33
 # Import Libraries
-from turtle import (speed, hideturtle, width, sety, color, done, setx)
+from turtle import (speed, hideturtle, width, sety, done, setx)
 from Logarithms import (move, AngledLine, StraightLine, Parabola, DrawCircle, Trig)
 import pyautogui
+
 # Create Grid
 speed(0)
 hideturtle()
@@ -11,35 +12,35 @@ print("Drawing Graph...")
 # Create X Axis and Y Axis
 print("Creating X Axis and Y Axis")
 width(3)
-move(600, 0)
-setx(-600)
+move(300, 0)
+setx(-300)
 move(0, 0)
-move(0, 600)
-sety(-600)
+move(0, 300)
+sety(-300)
 
 # Create Vertical Gridlines
 print("Creating Gridlines")
 width(1)
-move(-600, -600)
-sety(600)
-setx(600)
-sety(-600)
-setx(-600)
+move(-300, -300)
+sety(300)
+setx(300)
+sety(-300)
+setx(-300)
 
 # Draw Vertical Gridlines
 for offset in range(-15, 15):
-    move(offset * 40, 600)
-    sety(-600)
+    move(offset * 20, 300)
+    sety(-300)
 # Draw Horizontal Gridlines
 for offset in range(-15, 15):
-    move(600, offset * 40)
-    setx(-600)
+    move(300, offset * 20)
+    setx(-300)
 
 print("Done!")
 print()
 move(0, 0)
 graphType = ""
-color("blue")
+width(2)
 
 if __name__ == '__main__':
     while graphType != "Finish":
