@@ -13,7 +13,7 @@ def DrawCircle():
     radius = eval(pyautogui.prompt(title='Radius: '))
     xOrigin = eval(pyautogui.prompt(title='X Point Origin: '))
     yOrigin = eval(pyautogui.prompt(title='Y Point Origin: '))
-    print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²", "(", radius ** 2, ")")
+    print("(x -", xOrigin, ")² + (y -", yOrigin, ")² =", radius, "²  (", radius ** 2, ")")
     # Create Circle
     move(xOrigin * 20, 20 * (yOrigin - radius))
     circle(radius * 20)
@@ -35,7 +35,7 @@ def Parabola():
                 goto(x * 20, y * 20)
             print("(", x, ",", y, ")", end=' ')
     if functionType == "X":
-        print("x =", slope, "*y²", "+", intercept)
+        print("x =", slope, "*y² +", intercept)
         for y in range(-30, 30):
             x = ((y ** 2) * slope) + intercept
             if x == -30:
@@ -49,7 +49,7 @@ def AngledLine():
     intercept = eval(pyautogui.prompt(title='Intercept: '))
     print("Equation: y =", slope, "x +", intercept)
     # Create Angled Line
-    move(-300, 20 * -((15 * slope) + intercept))
+    move(-300, -20 * ((15 * slope) + intercept))
     goto(300, 20 * ((15 * slope) + intercept))
     print("Points: ")
     for x in range(-15, 16):

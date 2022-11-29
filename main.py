@@ -1,5 +1,5 @@
 # Python Graphing Calculator
-# Version 1.33
+# Version 1.35
 # Import Libraries
 from turtle import (speed, hideturtle, width, sety, done, setx, color, showturtle)
 from Logarithms import (move, AngledLine, StraightLine, Parabola, DrawCircle, Trig)
