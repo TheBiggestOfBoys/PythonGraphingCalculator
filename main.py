@@ -1,5 +1,5 @@
 # Python Graphing Calculator
-# Version 1.33
+# Version 1.35
 # Import Libraries
 from cgitb import text
 from turtle import (speed, hideturtle, title, width, sety, done, setx, color, showturtle)
