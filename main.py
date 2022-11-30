@@ -1,7 +1,8 @@
 # Python Graphing Calculator
 # Version 1.33
 # Import Libraries
-from turtle import (speed, hideturtle, width, sety, done, setx, color, showturtle)
+from cgitb import text
+from turtle import (speed, hideturtle, title, width, sety, done, setx, color, showturtle)
 from Logarithms import (move, AngledLine, StraightLine, Parabola, DrawCircle, Trig)
 import pyautogui
 
@@ -57,7 +58,7 @@ if __name__ == "__main__":
             hideturtle()
 
         # Graph Type Input
-        graphType = pyautogui.confirm(title="Graph Type:", buttons=["Line", "Parabola", "Circle", "Trig", "Settings", "Finish"])
+        graphType = pyautogui.confirm(title="Graph Type:", buttons=["Line", "Parabola", "Circle", "Trig", "Settings", "Save", "Finish"])
 
         # Line Input
         if graphType == "Line":
@@ -108,6 +109,12 @@ if __name__ == "__main__":
                 speed(0)
                 color("black")
                 hideturtle()
+
+        # Save (Screenshot)
+        if graphType == "Save":
+            pyautogui.alert(text="Move other windows/popups out of the way", title="Warning!", button="OK")
+            screenshot = pyautogui.screenshot(r"C:\Users\jrsco\Desktop\Graph.png")
+            pyautogui.alert(text="Screenshot saved", title="Alert", button="OK")
                 
         print()
         move(0, 0)
