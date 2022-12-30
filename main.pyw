@@ -1,8 +1,9 @@
 # Python Graphing Calculator
 # Version 1.36
 # Import Libraries
-from turtle import (up, goto, down, speed, hideturtle, title, width, sety, done, setx, color, showturtle, circle, setup)
+from turtle import (up, goto, down, speed, hideturtle, title, width, sety, done, setx, color, showturtle, circle, setup, bye)
 from math import (sin, cos)
+from os import environ
 import pyautogui
 
 # "Move" Subroutine
@@ -172,9 +173,9 @@ if __name__ == "__main__":
         # Save (Screenshot)
         if graphType == "Save":
             pyautogui.alert(text="Move other windows/popups out of the way", title="Warning!", button="OK")
-            screenshot = pyautogui.screenshot(r"C:\Users\jrsco\Desktop\Graph.png")
+            screenshot = pyautogui.screenshot(environ['USERPROFILE'] + "/Desktop/Graph.png")
             pyautogui.alert(text="Screenshot saved", title="Alert", button="OK")
 
         move(0, 0)
 
-done()
+    bye()
