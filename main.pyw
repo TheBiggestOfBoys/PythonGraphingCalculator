@@ -1,45 +1,55 @@
 # Python Graphing Calculator
-# Version 1.37
+# Version 1.38
 # Import Libraries
-import turtle, math, os, pyautogui
+import math
+import os
+import turtle
+
+import pyautogui
+
 
 # "Move" Subroutine
 def move(x, y):
     turtle.up()
     turtle.goto(x, y)
     turtle.down()
-    
+
+
+resolution = eval(pyautogui.prompt(title="Enter grid resolution: "))
+
 turtle = turtle.Turtle()
+turtle.hideturtle()
 
 window = turtle.screen
-window.setup(620,620)
+window.screensize(600, 600)
+window.setworldcoordinates(-resolution, -resolution, resolution, resolution)
 window.title("Main Graph")
 window.tracer(False)
 
 # Create Grid
 # Create X Axis and Y Axis
 turtle.width(3)
-move(300, 0)
-turtle.setx(-300)
+move(resolution, 0)
+turtle.setx(-resolution)
 move(0, 0)
-move(0, 300)
-turtle.sety(-300)
+move(0, resolution)
+turtle.sety(-resolution)
 # Create Vertical Gridlines
 turtle.width(1)
-move(-300, -300)
-turtle.sety(300)
-turtle.setx(300)
-turtle.sety(-300)
-turtle.setx(-300)
+move(-resolution, -resolution)
+turtle.sety(resolution)
+turtle.setx(resolution)
+turtle.sety(-resolution)
+turtle.setx(-resolution)
 
 # Draw Vertical Gridlines
-for offset in range(-15, 15):
-    move(offset * 20, 300)
-    turtle.sety(-300)
+for offset in range(-resolution, resolution + 1):
+    move(offset, resolution)
+    turtle.sety(-resolution)
 # Draw Horizontal Gridlines
-for offset in range(-15, 15):
-    move(300, offset * 20)
-    turtle.setx(-300)
+for offset in range(-resolution, resolution + 1):
+    move(resolution, offset)
+    turtle.setx(-resolution)
 
 move(0, 0)
 graphType = ""
@@ -62,81 +72,81 @@ while graphType != "Finish":
         if lineType == "Angled":
             slope = eval(pyautogui.prompt(title='Slope: '))
             intercept = eval(pyautogui.prompt(title='Intercept: '))
-                
+
             # Create Angled Line
-            move(-300, -20 * ((15 * slope) + intercept))
-            turtle.goto(300, 20 * ((15 * slope) + intercept))
+            move(-resolution, (resolution * slope) + intercept)
+            turtle.goto(resolution, -((resolution * slope) + intercept))
 
         # Straight Line Input
         if lineType == "Straight":
             axis = pyautogui.prompt(title='Axis: (X or Y)')
             intercept = eval(pyautogui.prompt(title='Intercept'))
             if axis == "y":
-                move(-300, intercept * 20)
-                turtle.setx(300)
+                move(-resolution, intercept)
+                turtle.setx(resolution)
             if axis == "x":
-                move(intercept * 20, -300)
-                turtle.sety(300)
+                move(intercept, -resolution)
+                turtle.sety(resolution)
 
     # Parabola Input
     if graphType == "Parabola":
-        functionType = pyautogui.confirm(title='Trig Type', buttons=['X', 'Y'])
+        functionType = pyautogui.confirm(title='Parabola Type', buttons=['X', 'Y'])
         slope = eval(pyautogui.prompt(title='Slope: '))
         intercept = eval(pyautogui.prompt(title='Intercept: '))
         # Create Parabola
         if functionType == "Y":
-            for x in range(-30, 30):
+            for x in range(-resolution, resolution + 1):
                 y = ((x ** 2) * slope) + intercept
-                if x == -30:
-                    move(x * 20, y * 20)
+                if x == -resolution:
+                    move(x, y)
                 else:
-                    turtle.goto(x * 20, y * 20)
+                    turtle.goto(x, y)
         if functionType == "X":
-            for y in range(-30, 30):
+            for y in range(-resolution, resolution + 1):
                 x = ((y ** 2) * slope) + intercept
-                if x == -30:
-                    move(x * 20, y * 20)
+                if x == -resolution:
+                    move(x, y)
                 else:
-                    turtle.goto(x * 20, y * 20)
+                    turtle.goto(x, y)
 
     # Circle Input
     if graphType == "Circle":
-        radius = eval(pyautogui.prompt(title='Radius: '))
-        xOrigin = eval(pyautogui.prompt(title='X Point Origin: '))
-        yOrigin = eval(pyautogui.prompt(title='Y Point Origin: '))
+        radius = eval(pyautogui.prompt(title="Radius: "))
+        xOrigin = eval(pyautogui.prompt(title="X Point Origin: "))
+        yOrigin = eval(pyautogui.prompt(title="Y Point Origin: "))
         # Create Circle
-        move(xOrigin * 20, 20 * (yOrigin - radius))
-        turtle.circle(radius * 20)
+        move(xOrigin, yOrigin - radius)
+        turtle.circle(radius, None, resolution)
 
     # Trig Input
     if graphType == "Trig":
-        trigType = pyautogui.confirm(title='Trig Type', buttons=['Sin', 'Cos'])
-        functionType = pyautogui.confirm(title='Function Type: ', buttons=['x', 'y'])
-        a = eval(pyautogui.prompt(title='Amplitude (a)'))
-        b = eval(pyautogui.prompt(title='Frequency (b)'))
-        c = eval(pyautogui.prompt(title='Horizontal Shift (c)'))
-        d = eval(pyautogui.prompt(title='Vertical Shift (d)'))
+        trigType = pyautogui.confirm(title="Trig Type", buttons=["'Sin", "Cos"])
+        functionType = pyautogui.confirm(title="Function Type: ", buttons=['X', 'Y'])
+        a = eval(pyautogui.prompt(title="Amplitude (a)"))
+        b = eval(pyautogui.prompt(title="Frequency (b)"))
+        c = eval(pyautogui.prompt(title="Horizontal Shift (c)"))
+        d = eval(pyautogui.prompt(title="Vertical Shift (d)"))
         if functionType == "Y":
-            for x in range(-15, 16):
+            for x in range(-resolution, resolution + 1):
                 if trigType == "Sin":
                     y = a * math.sin((b * x) + c) + d
                 if trigType == "Cos":
                     y = a * math.cos((b * x) + c) + d
-                if x == -15:
-                    move(x * 20, y * 20)
+                if x == -resolution:
+                    move(x, y)
                 else:
-                    turtle.goto(x * 20, y * 20)
+                    turtle.goto(x, y)
 
         if functionType == "X":
-            for y in range(-15, 16):
+            for y in range(-resolution, resolution + 1):
                 if trigType == "Sin":
                     x = a * math.sin((b * y) + c) + d
                 if trigType == "Cos":
                     x = a * math.cos((b * y) + c) + d
-                if y == -15:
-                    move(x * 20, y * 20)
+                if y == -resolution:
+                    move(x, y)
                 else:
-                    turtle.goto(x * 20, y * 20)
+                    turtle.goto(x, y)
 
     # Settings
     if graphType == "Settings":
