@@ -2,171 +2,146 @@
 # Version 1.39
 # Import Libraries
 import math
-import os
 import turtle
-import pyautogui
 
+turtle = turtle.Turtle()
+turtle.hideturtle()
+turtle.speed(0)
 
 # "Move" Subroutine
 def move(x, y):
-    turtle.up()
+    turtle.penup()
     turtle.goto(x, y)
-    turtle.down()
+    turtle.pendown()
 
-
-resolution = eval(pyautogui.prompt(title="Enter grid resolution"))
-
-turtle = turtle.Turtle()
-
-window = turtle.screen
-window.screensize(600, 600)
-window.setworldcoordinates(-resolution, -resolution, resolution, resolution)
-window.title("Main Graph")
-window.tracer(False)
-turtle.hideturtle()
-
-# Create Grid
-# Create X Axis and Y Axis
-turtle.width(3)
-move(resolution, 0)
-turtle.setx(-resolution)
-move(0, 0)
-move(0, resolution)
-turtle.sety(-resolution)
-
-# Create Vertical Gridlines
-turtle.width(1)
-move(-resolution, -resolution)
-turtle.sety(resolution)
-turtle.setx(resolution)
-turtle.sety(-resolution)
-turtle.setx(-resolution)
-
-# Draw Vertical Gridlines
-for offset in range(-resolution, resolution + 1):
-    move(offset, resolution)
+def draw_axis(resolution):
+    turtle.width(3)
+    move(resolution, 0)
+    turtle.setx(-resolution)
+    move(0, 0)
+    move(0, resolution)
     turtle.sety(-resolution)
 
-# Draw Horizontal Gridlines
-for offset in range(-resolution, resolution + 1):
-    move(resolution, offset)
+def draw_gridlines(resolution):
+    turtle.width(1)
+    move(-resolution, -resolution)
+    turtle.sety(resolution)
+    turtle.setx(resolution)
+    turtle.sety(-resolution)
     turtle.setx(-resolution)
+    for offset in range(-resolution, resolution + 1):
+        move(offset, resolution)
+        turtle.sety(-resolution)
+    for offset in range(-resolution, resolution + 1):
+        move(resolution, offset)
+        turtle.setx(-resolution)
 
-move(0, 0)
+def get_float_input(prompt_title):
+    return float(turtle.screen.textinput("Input", prompt_title))
+
+def get_confirm_input(prompt_title, buttons):
+    return turtle.screen.textinput("Input", f"{prompt_title} ({'/'.join(buttons)})")
+
+def draw_line():
+    lineType = get_confirm_input("Angle or Straight Line?", ["Angled", "Straight"])
+    if lineType == "Angled":
+        slope = get_float_input("Slope")
+        intercept = get_float_input("Intercept")
+        move(-resolution, (resolution * slope) + intercept)
+        turtle.goto(resolution, -((resolution * slope) + intercept))
+    elif lineType == "Straight":
+        axis = get_confirm_input("Axis", ["X", "Y"])
+        intercept = get_float_input("Intercept")
+        if axis == "Y":
+            move(-resolution, intercept)
+            turtle.setx(resolution)
+        elif axis == "X":
+            move(intercept, -resolution)
+            turtle.sety(resolution)
+
+def draw_parabola():
+    functionType = get_confirm_input("Parabola Type", ["X", "Y"])
+    slope = get_float_input("Slope")
+    intercept = get_float_input("Intercept")
+    if functionType == "Y":
+        for x in range(-resolution, resolution + 1):
+            y = ((x ** 2) * slope) + intercept
+            if x == -resolution:
+                move(x, y)
+            else:
+                turtle.goto(x, y)
+    elif functionType == "X":
+        for y in range(-resolution, resolution + 1):
+            x = ((y ** 2) * slope) + intercept
+            if x == -resolution:
+                move(x, y)
+            else:
+                turtle.goto(x, y)
+
+def draw_circle():
+    radius = get_float_input("Radius")
+    xOrigin = get_float_input("X Point Origin")
+    yOrigin = get_float_input("Y Point Origin")
+    move(xOrigin, yOrigin - radius)
+    turtle.circle(radius, None, resolution)
+
+def draw_trig():
+    trigType = get_confirm_input("Trig Type", ["Sin", "Cos"])
+    functionType = get_confirm_input("Function Type", ["X", "Y"])
+    a = get_float_input("Amplitude (a)")
+    b = get_float_input("Frequency (b)")
+    c = get_float_input("Horizontal Shift (c)")
+    d = get_float_input("Vertical Shift (d)")
+    if functionType == "Y":
+        for x in range(-resolution, resolution + 1):
+            y = a * (math.sin if trigType == "Sin" else math.cos)((b * x) + c) + d
+            if x == -resolution:
+                move(x, y)
+            else:
+                turtle.goto(x, y)
+    elif functionType == "X":
+        for y in range(-resolution, resolution + 1):
+            x = a * (math.sin if trigType == "Sin" else math.cos)((b * y) + c) + d
+            if y == -resolution:
+                move(x, y)
+            else:
+                turtle.goto(x, y)
+
+def change_settings():
+    settingsType = get_confirm_input("What Setting Would You Like To Change?", ["Line Width", "Line Color", "Reset to Default Settings"])
+    if settingsType == "Line Width":
+        turtle.width(get_float_input("Line Width"))
+    elif settingsType == "Line Color":
+        turtle.color(get_confirm_input("Line Color:", ["Black", "Blue", "Red", "Yellow", "Green"]))
+    elif settingsType == "Reset to Default Settings":
+        turtle.width(2)
+        turtle.color("black")
+
+resolution = int(turtle.screen.textinput("Input", "Enter grid resolution"))
+
+turtle.screen.tracer(False)
+turtle.screen.screensize(600, 600)
+turtle.screen.setworldcoordinates(-resolution, -resolution, resolution, resolution)
+turtle.screen.title("Main Graph")
+
+draw_axis(resolution)
+draw_gridlines(resolution)
+
+turtle.width(2)
+turtle.color("black")
+
 graphType = ""
-lineWidth = 2
-customColor = "black"
 
 while graphType != "Finish":
-    # Reset Graph Values
-    turtle.width(lineWidth)
-    turtle.color(customColor)
-
-    # Graph Type Input
-    graphType = pyautogui.confirm(title="Graph Type:", buttons=["Line", "Parabola", "Circle", "Trig", "Settings", "Save", "Finish"])
-
-    # Line Input
-    if graphType == "Line":
-        lineType = pyautogui.confirm(title="Angle or Straight Line?", buttons=["Angled", "Straight"])
-
-        # Angled Line Input
-        if lineType == "Angled":
-            slope = eval(pyautogui.prompt(title="Slope"))
-            intercept = eval(pyautogui.prompt(title="Intercept"))
-
-            # Create Angled Line
-            move(-resolution, (resolution * slope) + intercept)
-            turtle.goto(resolution, -((resolution * slope) + intercept))
-
-        # Straight Line Input
-        if lineType == "Straight":
-            axis = pyautogui.confirm(title="Axis", buttons=["X", "Y"])
-            intercept = eval(pyautogui.prompt(title="Intercept"))
-            if axis == "Y":
-                move(-resolution, intercept)
-                turtle.setx(resolution)
-            if axis == "X":
-                move(intercept, -resolution)
-                turtle.sety(resolution)
-
-    # Parabola Input
-    if graphType == "Parabola":
-        functionType = pyautogui.confirm(title="Parabola Type", buttons=["X", "Y"])
-        slope = eval(pyautogui.prompt(title="Slope"))
-        intercept = eval(pyautogui.prompt(title="Intercept"))
-        # Create Parabola
-        if functionType == "Y":
-            for x in range(-resolution, resolution + 1):
-                y = ((x ** 2) * slope) + intercept
-                if x == -resolution:
-                    move(x, y)
-                else:
-                    turtle.goto(x, y)
-        if functionType == "X":
-            for y in range(-resolution, resolution + 1):
-                x = ((y ** 2) * slope) + intercept
-                if x == -resolution:
-                    move(x, y)
-                else:
-                    turtle.goto(x, y)
-
-    # Circle Input
-    if graphType == "Circle":
-        radius = eval(pyautogui.prompt(title="Radius"))
-        xOrigin = eval(pyautogui.prompt(title="X Point Origin"))
-        yOrigin = eval(pyautogui.prompt(title="Y Point Origin"))
-        # Create Circle
-        move(xOrigin, yOrigin - radius)
-        turtle.circle(radius, None, resolution)
-
-    # Trig Input
-    if graphType == "Trig":
-        trigType = pyautogui.confirm(title="Trig Type", buttons=["Sin", "Cos"])
-        functionType = pyautogui.confirm(title="Function Type", buttons=["X", "Y"])
-        a = eval(pyautogui.prompt(title="Amplitude (a)"))
-        b = eval(pyautogui.prompt(title="Frequency (b)"))
-        c = eval(pyautogui.prompt(title="Horizontal Shift (c)"))
-        d = eval(pyautogui.prompt(title="Vertical Shift (d)"))
-        if functionType == "Y":
-            for x in range(-resolution, resolution + 1):
-                if trigType == "Sin":
-                    y = a * math.sin((b * x) + c) + d
-                if trigType == "Cos":
-                    y = a * math.cos((b * x) + c) + d
-                if x == -resolution:
-                    move(x, y)
-                else:
-                    turtle.goto(x, y)
-
-        if functionType == "X":
-            for y in range(-resolution, resolution + 1):
-                if trigType == "Sin":
-                    x = a * math.sin((b * y) + c) + d
-                if trigType == "Cos":
-                    x = a * math.cos((b * y) + c) + d
-                if y == -resolution:
-                    move(x, y)
-                else:
-                    turtle.goto(x, y)
-
-    # Settings
-    if graphType == "Settings":
-        settingsType = pyautogui.confirm(title="What Setting Would You Like To Change?", buttons=["Line Width", "Line Color", "Reset to Default Settings"])
-
-        if settingsType == "Line Width":
-            lineWidth = eval(pyautogui.prompt(title="Line Width"))
-
-        if settingsType == "Line Color":
-            customColor = pyautogui.confirm(title="Line Color:", buttons=["Black", "Blue", "Red", "Yellow", "Green"])
-
-        if settingsType == "Reset to Default Settings":
-            lineWidth = 1
-            customColor = "black"
-
-    # Save (Screenshot)
-    if graphType == "Save":
-        pyautogui.alert(text="Move other windows/popups out of the way", title="Warning!", button="OK")
-        screenshot = pyautogui.screenshot(os.environ["USERPROFILE"] + "/Desktop/Graph.png")
-        pyautogui.alert(text="Screenshot saved", title="Alert", button="OK")
-
     move(0, 0)
+    graphType = get_confirm_input("Graph Type:", ["Line", "Parabola", "Circle", "Trig", "Settings", "Finish"])
+    if graphType == "Line":
+        draw_line()
+    elif graphType == "Parabola":
+        draw_parabola()
+    elif graphType == "Circle":
+        draw_circle()
+    elif graphType == "Trig":
+        draw_trig()
+    elif graphType == "Settings":
+        change_settings()
